@@ -26,6 +26,7 @@ if(PROJECT_IS_TOP_LEVEL)
 
     link_libraries(Threads::Threads)
 
+    add_subdirectory(lib)
     add_subdirectory(snippet)
 else()
     message(FATAL_ERROR "This project is never intended to be used as a library.")
