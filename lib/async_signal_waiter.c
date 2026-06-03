@@ -26,7 +26,8 @@ static void* signal_waiter_cb(void* const arg_p)
     pthread_barrier_wait(arg.barrier_p);
 
     // Wait for the signal specified:
-    sigwait(&arg.sigwait_set, NULL);
+    int unused_which_signal; // just to prevent invalid write
+    sigwait(&arg.sigwait_set, &unused_which_signal);
 
     // Set the flag:
     atomic_store(arg.is_triggered_p, true);
