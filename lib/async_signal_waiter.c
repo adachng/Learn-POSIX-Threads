@@ -73,15 +73,15 @@ atomic_bool* async_signal_waiter(pthread_t* const      thread_out_p,
         }
     }
 
-    const struct workerArg arg = {.barrier_p      = &barrier,
-                                  .is_triggered_p = ret_p,
-                                  .sigwait_set    = sigwait_set};
+    struct workerArg arg = {.barrier_p      = &barrier,
+                            .is_triggered_p = ret_p,
+                            .sigwait_set    = sigwait_set};
 
     // Create the thread:
     pthread_t signal_waiter_thread;
 
     const int res =
-        pthread_create(&signal_waiter_thread, attr_p, signal_waiter_cb, ret_p);
+        pthread_create(&signal_waiter_thread, attr_p, signal_waiter_cb, &arg);
 
     // Handle optional output arguments:
     if (thread_out_p != NULL)
