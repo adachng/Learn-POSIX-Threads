@@ -1,8 +1,8 @@
 #include "async_signal_waiter.h"
 
-#include <assert.h>
-#include <bits/pthreadtypes.h>
 #include <pthread.h>
+
+#include <assert.h>
 #include <signal.h>
 #include <stdatomic.h>
 #include <stdbool.h>
@@ -87,6 +87,12 @@ atomic_bool* async_signal_waiter(pthread_t* const      thread_out_p,
     if (thread_out_p != NULL)
     {
         *thread_out_p = signal_waiter_thread;
+    }
+    else
+    {
+        // https://man7.org/linux/man-pages/man3/pthread_detach.3.html
+        const int res = pthread_detach(signal_waiter_thread);
+        assert(res == 0);
     }
 
     if (create_res_p != NULL)
